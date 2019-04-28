@@ -8,6 +8,14 @@ import com.yt.entity.Product;
  */
 public interface ProductDao {
 
+
+    /**
+     * 通过 productId 查询唯一的商品信息
+     * @param productId
+     * @return
+     */
+    Product queryProductById(Long productId);
+
     /**
      * 插入商品
      *
