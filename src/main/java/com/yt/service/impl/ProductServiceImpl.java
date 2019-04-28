@@ -10,6 +10,7 @@ import com.yt.enums.ProductStateEnum;
 import com.yt.exceptions.ProductOperationException;
 import com.yt.service.ProductService;
 import com.yt.util.ImageUtil;
+import com.yt.util.PageCalculator;
 import com.yt.util.PathUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,22 @@ public class ProductServiceImpl implements ProductService {
 
     @Autowired
     ProductImgDao productImgDao;
+
+    @Override
+    public ProductExecution getProductList(Product productCondition, int pageIndex, int pageSize) throws ProductOperationException {
+        int rowIndex = PageCalculator.calculateRowIndex(pageIndex, pageSize);
+        List<Product> productList = productDao.queryProductList(productCondition, rowIndex, pageSize);
+        int count = productDao.queryProductCount(productCondition);
+        ProductExecution pe = new ProductExecution();
+        pe.setProductList(productList);
+        pe.setCount(count);
+        return pe;
+    }
+
+    @Override
+    public Product getProductById(long productId) throws ProductOperationException {
+        return productDao.queryProductById(productId);
+    }
 
     @Override
     @Transactional
@@ -65,6 +82,38 @@ public class ProductServiceImpl implements ProductService {
         return new ProductExecution(ProductStateEnum.EMPTY);
     }
 
+    @Override
+    @Transactional
+    public ProductExecution modifyProduct(Product product, ImageHolder thumbnail, List<ImageHolder> productImgList) throws ProductOperationException {
+        if (product != null && product.getShop() != null && product.getShop().getShopId() != null) {
+            product.setLastEditTime(new Date());
+            if (thumbnail != null) {
+                Product tempProduct = productDao.queryProductById(product.getProductId());
+                if (tempProduct.getImgAddr() != null) {
+                    ImageUtil.deleteFileOrPath(tempProduct.getImgAddr());
+                }
+                addThumbnail(product, thumbnail);
+            }
+
+            if (productImgList != null && productImgList.size() > 0) {
+                deleteProductImgList(product.getProductId());
+                addProductImgList(product, productImgList);
+            }
+
+            try {
+                int effectedNum = productDao.updateProduct(product);
+                if (effectedNum <= 0) {
+                    throw new ProductOperationException("更新商品信息失败");
+                }
+                return new ProductExecution(ProductStateEnum.SUCCESS, product);
+            } catch (Exception e) {
+                throw new ProductOperationException("更新商品信息失败：" + e.toString());
+            }
+        } else {
+            return new ProductExecution(ProductStateEnum.EMPTY);
+        }
+    }
+
     private void addThumbnail(Product product, ImageHolder thumbnail) {
         String dest = PathUtil.getShopImagePath(product.getShop().getShopId());
         String thumbnailAddr = ImageUtil.generateThumbnail(thumbnail, dest);
@@ -94,5 +143,13 @@ public class ProductServiceImpl implements ProductService {
                 throw new ProductOperationException("创建商品详情图片失败：" + e.toString());
             }
         }
+    }
+
+    private void deleteProductImgList(long productId) {
+        List<ProductImg> productImgList = productImgDao.queryProductImgList(productId);
+        for (ProductImg productImg : productImgList) {
+            ImageUtil.deleteFileOrPath(productImg.getImgAddr());
+        }
+        productImgDao.deleteProductImgByProductId(productId);
     }
 }
