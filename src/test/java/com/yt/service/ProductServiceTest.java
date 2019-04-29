@@ -8,11 +8,9 @@ import com.yt.entity.ProductCategory;
 import com.yt.entity.Shop;
 import com.yt.enums.ProductStateEnum;
 import com.yt.exceptions.ShopOperationException;
-import jdk.internal.util.xml.impl.Input;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.awt.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
