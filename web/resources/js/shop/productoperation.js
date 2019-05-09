@@ -86,7 +86,9 @@ $(function() {
             var thumbnail = $('#small-img')[0].files[0];
             console.log(thumbnail);
             var formData = new FormData();
-            formData.append('thumbnail', thumbnail);
+            if (thumbnail !== undefined) {
+                formData.append('thumbnail', thumbnail);
+            }
             $('.detail-img').map(
                 function(index, item) {
                     if ($('.detail-img')[index].files.length > 0) {
