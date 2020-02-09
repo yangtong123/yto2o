@@ -4,22 +4,22 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.yt.dao.ProductImgDao">
-    <insert id="batchInsertProductImg" parameterType="java.util.List">
-        insert into
-          tb_product_img(img_addr, img_desc, priority, create_time, product_id)
-        values
-          <foreach collection="list" item="productImg" index="index" separator=",">
-              (
-                #{productImg.imgAddr},
-                #{productImg.imgDesc},
-                #{productImg.priority},
-                #{productImg.createTime},
-                #{productImg.productId}
-              )
-          </foreach>
-    </insert>
+  <insert id="batchInsertProductImg" parameterType="java.util.List">
+    insert into
+    tb_product_img(img_addr, img_desc, priority, create_time, product_id)
+    values
+    <foreach collection="list" index="index" item="productImg" separator=",">
+      (
+      #{productImg.imgAddr},
+      #{productImg.imgDesc},
+      #{productImg.priority},
+      #{productImg.createTime},
+      #{productImg.productId}
+      )
+    </foreach>
+  </insert>
 
-    <select id="queryProductImgList" resultType="com.yt.entity.ProductImg">
+  <select id="queryProductImgList" resultType="com.yt.entity.ProductImg">
 		SELECT
 		  product_img_id,
 		  img_addr,
@@ -33,11 +33,11 @@
 		  product_img_id ASC
 	</select>
 
-    <delete id="deleteProductImgByProductId">
-        <!-- 具体的sql -->
-        DELETE FROM
-          tb_product_img
-        WHERE
-          product_id = #{productId}
-    </delete>
+  <delete id="deleteProductImgByProductId">
+    <!-- 具体的sql -->
+    DELETE FROM
+    tb_product_img
+    WHERE
+    product_id = #{productId}
+  </delete>
 </mapper>

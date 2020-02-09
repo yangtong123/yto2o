@@ -1,88 +1,88 @@
 package com.yt.dto;
 
-import java.util.List;
-
 import com.yt.entity.Award;
 import com.yt.enums.AwardStateEnum;
+import java.util.List;
 
 public class AwardExecution {
-	// 结果状态
-	private int state;
 
-	// 状态标识
-	private String stateInfo;
+  // 结果状态
+  private int state;
 
-	// 店铺数量
-	private int count;
+  // 状态标识
+  private String stateInfo;
 
-	// 操作的award（增删改商品的时候用）
-	private Award award;
+  // 店铺数量
+  private int count;
 
-	// 获取的award列表(查询商品列表的时候用)
-	private List<Award> awardList;
+  // 操作的award（增删改商品的时候用）
+  private Award award;
 
-	public AwardExecution() {
-	}
+  // 获取的award列表(查询商品列表的时候用)
+  private List<Award> awardList;
 
-	// 失败的构造器
-	public AwardExecution(AwardStateEnum stateEnum) {
-		this.state = stateEnum.getState();
-		this.stateInfo = stateEnum.getStateInfo();
-	}
+  public AwardExecution() {
+  }
 
-	// 成功的构造器
-	public AwardExecution(AwardStateEnum stateEnum, Award award) {
-		this.state = stateEnum.getState();
-		this.stateInfo = stateEnum.getStateInfo();
-		this.award = award;
-	}
+  // 失败的构造器
+  public AwardExecution(AwardStateEnum stateEnum) {
+    this.state = stateEnum.getState();
+    this.stateInfo = stateEnum.getStateInfo();
+  }
 
-	// 成功的构造器
-	public AwardExecution(AwardStateEnum stateEnum,
-			List<Award> awardList) {
-		this.state = stateEnum.getState();
-		this.stateInfo = stateEnum.getStateInfo();
-		this.awardList = awardList;
-	}
+  // 成功的构造器
+  public AwardExecution(AwardStateEnum stateEnum, Award award) {
+    this.state = stateEnum.getState();
+    this.stateInfo = stateEnum.getStateInfo();
+    this.award = award;
+  }
 
-	public int getState() {
-		return state;
-	}
+  // 成功的构造器
+  public AwardExecution(AwardStateEnum stateEnum,
+      List<Award> awardList) {
+    this.state = stateEnum.getState();
+    this.stateInfo = stateEnum.getStateInfo();
+    this.awardList = awardList;
+  }
 
-	public void setState(int state) {
-		this.state = state;
-	}
+  public int getState() {
+    return this.state;
+  }
 
-	public String getStateInfo() {
-		return stateInfo;
-	}
+  public void setState(int state) {
+    this.state = state;
+  }
 
-	public void setStateInfo(String stateInfo) {
-		this.stateInfo = stateInfo;
-	}
+  public String getStateInfo() {
+    return this.stateInfo;
+  }
 
-	public int getCount() {
-		return count;
-	}
+  public void setStateInfo(String stateInfo) {
+    this.stateInfo = stateInfo;
+  }
 
-	public void setCount(int count) {
-		this.count = count;
-	}
+  public int getCount() {
+    return this.count;
+  }
 
-	public Award getAward() {
-		return award;
-	}
+  public void setCount(int count) {
+    this.count = count;
+  }
 
-	public void setAward(Award award) {
-		this.award = award;
-	}
+  public Award getAward() {
+    return this.award;
+  }
 
-	public List<Award> getAwardList() {
-		return awardList;
-	}
+  public void setAward(Award award) {
+    this.award = award;
+  }
 
-	public void setAwardList(List<Award> awardList) {
-		this.awardList = awardList;
-	}
+  public List<Award> getAwardList() {
+    return this.awardList;
+  }
+
+  public void setAwardList(List<Award> awardList) {
+    this.awardList = awardList;
+  }
 
 }
